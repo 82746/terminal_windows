@@ -1,6 +1,5 @@
 #!/bin/env python3
 
-from datetime import datetime
 from time import sleep
 import os
 import string
@@ -127,7 +126,7 @@ class Window:
         
 
         
-        def write(self, text:str, x:int, y:int, z:int=1, wrapping=False) -> None:
+        def write_text(self, text:str, x:int, y:int, z:int=1, wrapping=False) -> None:
                 c_x_pos = x
                 c_y_pos = y
 
@@ -141,7 +140,7 @@ class Window:
                         c_x_pos += 1
 
 
-        def render_pixmap(self) -> list[list]:
+        def __render_pixmap(self) -> list[list]:
                 # update decorations
                 self.__update_pixmap_invert()
 
@@ -163,7 +162,7 @@ class Window:
                 # overwrite with children's content 
                 for child in self.__children:
                         child_map = [[]]
-                        child_map = child.render_pixmap()
+                        child_map = child.__render_pixmap()
                         ch_x, ch_y= child.pos()
 
                         y = ch_y
@@ -204,7 +203,7 @@ class Window:
 
 
         def render_and_draw(self) -> None:
-                self.render_pixmap()
+                self.__render_pixmap()
 
                 print("\033[0;;H", end="") # cursor to pos 0,0 before printing
                 window_str = ""
@@ -286,48 +285,3 @@ class Window:
         def invert(self, invert:bool):
                 self.__is_inverted = invert
                 
-
-
-
-class Calendar:
-        def __init__(self) -> None:
-                pass  
-
-
-# test code
-if __name__ == "__main__":
-        w,h = os.get_terminal_size() 
-        root = Window(w,h,0,0)
-        root.render_and_draw()
-
-        win = root.new_child_window(50, 20, 0,0)
-        win.border()
-        win.fill()
-        win.write("helloa", 2,2)
-        win.write("helloa", 2,3)
-        win.write("helloa", 2,4)
-        win.write("helloa", 10,11)
-
-        c_win = win.new_child_window(90,5, 10,8, is_translucent=False, is_inverted=True)
-        c_win.write("ikkuna rajaa ali-ikkunat", 2,1)
-        c_win.fill()
-
-        cc_win = root.new_child_window(50,10,16,16, is_inverted=True)
-        cc_win.write("x   -            Window name", 1,0)
-        cc_win.fill()
-
-        w,h = os.get_terminal_size()
-
-        def main(): 
-                print("\033[?1049h", end="") # enable alternative screen buffer
-                print("\033[0;0H", end="") # cursor to top left
-                root.render_and_draw()
-                print("\033[?25l", end="") # hide cursor
-
-        try:
-                while True:
-                        main()
-                        sleep(0.1)
-        except KeyboardInterrupt:
-                print("\033[?1049l", end="") # disable alternative screen buffer
-                print("\033[?25h", end="") # show cursor
