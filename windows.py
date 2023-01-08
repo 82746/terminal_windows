@@ -5,7 +5,7 @@ import os
 import string
 
 class Pixel:
-        class Decor:
+        class Decoration:
                 # SGR control sequences
                 RESET = '\033[0m'
                 BOLD = '\033[1m'
@@ -30,9 +30,9 @@ class Pixel:
                         return
 
                 
-                self.__decorated_value = "".join(self.__decors) + self.__value + Pixel.Decor.RESET
+                self.__decorated_value = "".join(self.__decors) + self.__value + Pixel.Decoration.RESET
 
-        # valid decors in Pixel.Decor
+        # valid decors in Pixel.Decoration
         def add_decor(self, decor:chr) -> None:
                 if decor not in self.__decors:
                         self.__decors.append(decor)
@@ -185,7 +185,7 @@ class Window:
 
                                         # add decorated char 
                                         #if child.is_inverted:
-                                        #        pixel.add_decor(Pixel.Decor.INVERT)
+                                        #        pixel.add_decor(Pixel.Decoration.INVERT)
 
                                         self.__rendered_pixmap[y][x] = pixel
                                         x += 1
@@ -278,9 +278,9 @@ class Window:
                         for z_axel in row:
                                 for pixel in z_axel:
                                         if self.__is_inverted == True:
-                                                pixel.add_decor(Pixel.Decor.INVERT)
+                                                pixel.add_decor(Pixel.Decoration.INVERT)
                                         elif self.__is_inverted == False:
-                                                pixel.rm_decor(Pixel.Decor.INVERT)
+                                                pixel.rm_decor(Pixel.Decoration.INVERT)
 
         def invert(self, invert:bool):
                 self.__is_inverted = invert
