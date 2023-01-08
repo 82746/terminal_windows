@@ -1,7 +1,5 @@
 #!/bin/env python3
 
-from time import sleep
-import os
 import string
 
 class Pixel:
@@ -102,6 +100,9 @@ class Window:
 
 
         def border(self, t:str="─", l:str="│", r:str="│", b:str="─", tl:str="┌", tr:str="┐", bl:str="└", br:str="┘", z=1) -> None:
+                """
+                Add borders to window.
+                """
                 # top 
                 for x in range(1,self.__width-1):
                         self.__pixmap[0][x].append(Pixel(t,z=z))
@@ -127,6 +128,9 @@ class Window:
 
         
         def write_text(self, text:str, x:int, y:int, z:int=1, wrapping=False) -> None:
+                """
+                Write text inside window. X and Y positions are relative to window's position.
+                """
                 c_x_pos = x
                 c_y_pos = y
 
@@ -196,6 +200,9 @@ class Window:
                 return self.__rendered_pixmap
 
         def fill(self, z:int=-1) -> None:
+                """
+                Fill window with space.
+                """
                 # fill with " "-pixels at depth z
                 for y in range(0,self.__height):
                         for x in range(0,self.__width):
@@ -203,6 +210,9 @@ class Window:
 
 
         def render_and_draw(self) -> None:
+                """
+                Render and draw window and all its sub-windows.
+                """
                 self.__render_pixmap()
 
                 print("\033[0;;H", end="") # cursor to pos 0,0 before printing
@@ -239,6 +249,9 @@ class Window:
 
 
         def clear_window(self) -> None:
+                """
+                Clear all window's content.
+                """
                 self.__clear_pixmap()
         
         def new_child_window(self, width:int, height:int, x:int, y:int, is_translucent:bool = False, is_inverted:bool = False) -> 'Window':
@@ -247,6 +260,9 @@ class Window:
                 return child_win
 
         def pos(self) -> tuple:
+                """
+                Get window's X and Y positions.
+                """
                 return (self.__x, self.__y)
 
 
@@ -267,6 +283,9 @@ class Window:
                 return self.__is_inverted
 
         def set_size(self, width:int, height:int) -> None:
+                """
+                Set window's width and height.
+                """
                 if width and height > 1:
                         self.__width = width
                         self.__height = height
@@ -283,5 +302,8 @@ class Window:
                                                 pixel.rm_decor(Pixel.Decoration.INVERT)
 
         def invert(self, invert:bool):
+                """
+                Invert window's colors.
+                """
                 self.__is_inverted = invert
                 

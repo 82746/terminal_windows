@@ -1,5 +1,7 @@
 #!/bin/env python
 from windows import *
+from time import sleep
+import os
 
 # test code
 if __name__ == "__main__":
