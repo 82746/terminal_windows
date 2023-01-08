@@ -163,10 +163,16 @@ class Window:
                 y = 0
                 for row in self.__pixmap:
                         x = 0
+
+                        # check if pixel is outside of window (y)
+                        if self.__height - 1 < y:
+                            continue
+
                         for z_axis in row:
-                                # check if pixel is outside of window
-                                if x > self.__width - 1 or y > self.__height - 1 or x < 0 or y < 0:
+                                # check if pixel is outside of window (x)
+                                if self.__width - 1 < x:
                                         continue
+
                                 # choose(by highest z) the pixel to be rendered from overlapping pixels
                                 z_axis.sort(key=lambda pixel : pixel.z, reverse=True)
                                 top_pixel = z_axis[0]
@@ -184,11 +190,14 @@ class Window:
                         y = ch_y
                         for row in child_map:
                                 x = ch_x
+
+                                # check if pixel is outside of window
                                 if self.__height - 1 < y or y < 0:
                                         y += 1
                                         continue
 
                                 for pixel in row:
+                                        # check if pixel is outside of window
                                         if self.__width - 1 < x or x < 0:
                                                 x += 1
                                                 continue
