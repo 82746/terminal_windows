@@ -6,8 +6,7 @@ import os
 # test code
 if __name__ == "__main__":
         w,h = os.get_terminal_size() 
-        root = Window(w,h,0,0)
-        root.render_and_draw()
+        root = Screen()
 
         win = root.new_child_window(70, 20, 0,0)
         win.border()
@@ -26,7 +25,7 @@ if __name__ == "__main__":
         def main(): 
                 print("\033[?1049h", end="") # enable alternative screen buffer
                 print("\033[0;0H", end="") # cursor to top left
-                root.render_and_draw()
+                root.refresh()
                 print("\033[?25l", end="") # hide cursor
 
         try:
