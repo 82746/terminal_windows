@@ -1,6 +1,7 @@
 #!/bin/env python3
 
 import string
+import os
 
 class Pixel:
         class Decoration:
@@ -155,6 +156,9 @@ class Window:
                 for row in self.__pixmap:
                         x = 0
                         for z_axis in row:
+                                # check if pixel is outside of window
+                                if x > self.__width - 1 or y > self.__height - 1 or x < 0 or y < 0:
+                                        continue
                                 # choose(by highest z) the pixel to be rendered from overlapping pixels
                                 z_axis.sort(key=lambda pixel : pixel.z, reverse=True)
                                 top_pixel = z_axis[0]
@@ -209,7 +213,7 @@ class Window:
                                 self.__pixmap[y][x].append(Pixel(value=" ",z=z))
 
 
-        def render_and_draw(self) -> None:
+        def _render_and_draw(self) -> None:
                 """
                 Render and draw window and all its sub-windows.
                 """
@@ -264,7 +268,7 @@ class Window:
                 Get window's X and Y positions.
                 """
                 return (self.__x, self.__y)
-
+        
 
         @property
         def size(self) -> tuple:
@@ -307,3 +311,27 @@ class Window:
                 """
                 self.__is_inverted = invert
                 
+class Screen(Window):
+        def __init__(self) -> None:
+                w,h = os.get_terminal_size()
+                super().__init__(w, h, 0, 0)
+        
+        def refresh(self) -> None:
+                """
+                Update/refresh/re-draw the screen.
+                """
+                w,h = os.get_terminal_size()
+                super().set_size(w,h)
+                super()._render_and_draw()
+        
+
+
+
+
+
+
+
+
+
+
+
