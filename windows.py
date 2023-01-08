@@ -81,6 +81,14 @@ class Window:
                 self.__rendered_pixmap = [[]]
                 self.__clear_rendered_pixmap()
 
+                self.__set_modes()
+
+        def __set_modes(self) -> None:
+                """
+                Set terminal screen modes with ANSI escape sequences.
+                """
+                print("\033[?7l", end="") # disable linewrap for better resizing
+
         def __clear_pixmap(self) -> None:
                 # clear and fill with empty
                 self.__pixmap = []
